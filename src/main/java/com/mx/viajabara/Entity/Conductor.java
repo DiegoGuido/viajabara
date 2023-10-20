@@ -1,4 +1,4 @@
-package com.mx.viajabara.entitys;
+package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +14,7 @@ public class Conductor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_conductor")
-    private int idVehiculo;
+    private Long idConductor;
 
     @Column(name = "nombre")
     private String nombre;
