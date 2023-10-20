@@ -1,4 +1,4 @@
-package com.mx.viajabara.entitys;
+package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
