@@ -39,4 +39,10 @@ public class ClienteController {
         Boolean deleted = clienteService.deleteCliente(id);
         return ResponseEntity.ok(deleted);
     }
+
+    @GetMapping(value = "/login/{username}/{clave}")
+    public ResponseEntity<Boolean> login(@PathVariable(name = "username") String username, @PathVariable(value = "clave") String clave){
+        Boolean login = clienteService.login(username, clave);
+        return ResponseEntity.ok(login);
+    }
 }

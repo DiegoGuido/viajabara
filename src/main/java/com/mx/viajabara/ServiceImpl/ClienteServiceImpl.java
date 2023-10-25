@@ -36,6 +36,11 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public boolean login(String username, String password){
+        boolean cliente = clienteRepository.existsByCorreoAndClave(username, password);
+        return cliente;
+    }
+    @Override
     public Cliente getClienteById(Long id) {
         return clienteRepository.findById(id).orElse(null);
     }
