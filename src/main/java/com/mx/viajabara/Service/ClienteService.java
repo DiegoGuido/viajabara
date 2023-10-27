@@ -12,6 +12,8 @@ public interface ClienteService {
 
     boolean deleteCliente(Long id);
 
+    boolean login(String email, String password);
+
     Cliente getClienteById(Long id);
 
 
