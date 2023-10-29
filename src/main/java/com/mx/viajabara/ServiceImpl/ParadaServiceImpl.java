@@ -1,5 +1,6 @@
 package com.mx.viajabara.ServiceImpl;
 
+import com.mx.viajabara.Dto.ParadaDTO;
 import com.mx.viajabara.Entity.Parada;
 import com.mx.viajabara.Repository.ParadaRepository;
 import com.mx.viajabara.Service.ParadaService;
@@ -17,8 +18,13 @@ public class ParadaServiceImpl implements ParadaService {
     ParadaRepository paradaRepository;
 
     @Override
-    public Boolean saveOrUpdateConductor(Parada parada) {
+    public Boolean saveOrUpdateConductor(ParadaDTO paradaDto) {
         Boolean response = false;
+        Parada parada = Parada.builder()
+                .nombre(paradaDto.getNombre())
+                .descripcion(paradaDto.getDescripcion())
+                .latitud(paradaDto.getLatitud())
+                .longitud(paradaDto.getLongitud()).build();
 
         Parada saved = paradaRepository.save(parada);
 
@@ -33,10 +39,14 @@ public class ParadaServiceImpl implements ParadaService {
     }
 
     @Override
-    public Boolean deleteParada(Long id) {
-        paradaRepository.deleteById(id);
-        if (getParadaById(id) == null){
-            return true;
+    public String deleteParada(Long id) {
+        if (getParadaById(id)!= null){
+            paradaRepository.deleteById(id);
+            if (getParadaById(id) == null){
+                return "Se elimino la parada con ID " + id;
+            }
+        }else{
+            return "El ID " +id +" no existe";
         }
         return null;
     }

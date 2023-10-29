@@ -1,15 +1,14 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-
+@Builder
+@AllArgsConstructor
 @Table(name = "PARADA")
 public class Parada {
 
