@@ -16,7 +16,6 @@ public interface ClienteService {
 
     Cliente getClienteById(Long id);
 
-    boolean login(String email, String password);
 
 
 }
