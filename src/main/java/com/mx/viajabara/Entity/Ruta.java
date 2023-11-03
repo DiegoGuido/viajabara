@@ -1,14 +1,18 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.google.gson.JsonArray;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "RUTA")
 public class Ruta {
 
@@ -18,6 +22,7 @@ public class Ruta {
     private int idRuta;
 
     @Column(name = "paradas")
+    @JsonRawValue
     private String paradas;
 
 }
