@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "RUTA")
 public class Ruta {
 
@@ -23,6 +24,7 @@ public class Ruta {
 
     @Column(name = "paradas")
     @JsonRawValue
+    @NonNull
     private String paradas;
 
 }
