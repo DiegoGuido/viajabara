@@ -10,4 +10,5 @@ import lombok.Setter;
 public class Response {
     private String message;
     private Object object;
+    private Boolean error;
 }

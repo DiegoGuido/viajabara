@@ -23,6 +23,9 @@ public class Viaje {
     @Temporal(TemporalType.DATE)
     private Date fechaViaje;
 
+    @Column(name = "nombre")
+    private String nombre;
+
     @Column(name = "num_asientos_disponibles")
     private int numAsientosDisponibles;
 

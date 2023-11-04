@@ -12,12 +12,13 @@ import lombok.Data;
 @Builder
 public class ParadaDTO {
 
+
     private Long idParada;
 
     @NotBlank(message = "Nombre invalido: Campo requerido")
     @NotNull(message = "Nombre invalido: nombre es NULL")
     @Size(min = 3, max = 30, message = "Nombre invalido: el nombre tiene que tener una longitud de 3 - 30 caracteres")
-    String nombre;
+    private String nombre;
 
 
     private String descripcion;
@@ -26,8 +27,8 @@ public class ParadaDTO {
     @NotBlank(message = "Latitud invalida: latitud es NULL")
     private String latitud;
 
-    @NotNull(message = "Longitud invalida: latitud es requerido")
-    @NotBlank(message = "Longitud invalida: latitud es NULL")
+    @NotNull(message = "Longitud invalida: longitud es requerido")
+    @NotBlank(message = "Longitud invalida: longitud es NULL")
     private String longitud;
 
 }
