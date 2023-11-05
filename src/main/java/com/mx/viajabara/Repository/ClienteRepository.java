@@ -12,10 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query("SELECT c.fechaNacimiento, c.correo, c.clave, c.nombre, c.fotoPerfil\n" +
-            "FROM Cliente as c WHERE c.correo = :correo AND c.clave = :clave")
-    Cliente loginByCorreoAndClave(@Param("correo") String correo, @Param("clave") String clave);
+    Optional<Cliente> findByCorreoAndClave(String correo, String clave);
 
-    Cliente findByCorreo(String correo);
 
 }

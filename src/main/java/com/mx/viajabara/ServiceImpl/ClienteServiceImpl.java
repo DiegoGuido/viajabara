@@ -1,6 +1,7 @@
 package com.mx.viajabara.ServiceImpl;
 
 import com.mx.viajabara.Dto.ClienteDTO;
+import com.mx.viajabara.Dto.LoginDTO;
 import com.mx.viajabara.Entity.Cliente;
 import com.mx.viajabara.Repository.ClienteRepository;
 import com.mx.viajabara.Service.ClienteService;
@@ -17,12 +18,13 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
     @Override
-    public Cliente login(String correo, String clave) throws AuthenticationException {
+    public Cliente login(LoginDTO loginDTO) throws AuthenticationException {
         try {
-            //Cliente currentCliente = clienteRepository.loginByCorreoAndClave(correo,clave);
-            Optional<Cliente> currentCliente = clienteRepository.findById(1L);
+            Optional<Cliente> currentCliente = clienteRepository.findByCorreoAndClave(loginDTO.getCorreo(),loginDTO.getClave());
 
-            if (currentCliente != null){
+            System.out.println(currentCliente.get());
+
+            if (currentCliente.isPresent()){
                 return currentCliente.get();
             }else {
                 throw new AuthenticationException("Ocurrió un error de autenticación");
