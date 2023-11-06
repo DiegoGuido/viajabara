@@ -2,6 +2,7 @@ package com.mx.viajabara.ServiceImpl;
 
 import com.mx.viajabara.Dto.ParadaDTO;
 import com.mx.viajabara.Entity.Parada;
+import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Repository.ParadaRepository;
 import com.mx.viajabara.Service.ParadaService;
 import org.hibernate.service.spi.InjectService;
@@ -21,6 +22,7 @@ public class ParadaServiceImpl implements ParadaService {
     public Boolean saveOrUpdateConductor(ParadaDTO paradaDto) {
         Boolean response = false;
         Parada parada = Parada.builder()
+                .idParada(paradaDto.getIdParada())
                 .nombre(paradaDto.getNombre())
                 .descripcion(paradaDto.getDescripcion())
                 .latitud(paradaDto.getLatitud())
@@ -52,11 +54,25 @@ public class ParadaServiceImpl implements ParadaService {
     }
 
     @Override
-    public Parada getParadaById(Long id) {
-        Optional<Parada> parada = paradaRepository.findById(id);
-        if (parada.isPresent()){
-            return parada.get();
+    public Response getParadaById(Long id) {
+        Response response = new Response();
+        try {
+            Optional<Parada> parada = paradaRepository.findById(id);
+            if (parada.isPresent()){
+                response.setMessage("Ok");
+                response.setError(false);
+                response.setObject(parada);
+
+            }else {
+                response.setMessage("No se encontro la parada con el id: " + id);
+                response.setError(true);
+                response.setObject(null);
+            }
+        }catch (Exception e){
+            response.setMessage("Hubo un error al querer consultar la parada intente más tarde o comuniquese con el administrador" );
+            response.setError(true);
+            response.setObject(null);
         }
-        return null;
+        return response;
     }
 }

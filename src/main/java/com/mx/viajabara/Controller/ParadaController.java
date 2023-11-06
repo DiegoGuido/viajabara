@@ -58,18 +58,12 @@ public class ParadaController {
     public ResponseEntity<Response> getParadaById(@PathVariable(name = "id") Long id){
         Response response = new Response();
         try{
-           Parada parada = paradaService.getParadaById(id);
-           if (parada != null){
-               response.setMessage("Ok");
-               response.setObject(parada);
-           }else {
-               response.setMessage("No se encontro la parada con el ID " + id);
-               response.setObject(parada);
-           }
-
+            response = paradaService.getParadaById(id);
+            if (response.getError()){
+                return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            }
         }catch(Exception e){
-            response.setMessage("Problemas para obtener la parada id -" + id);
-            response.setObject(id);
+            return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
