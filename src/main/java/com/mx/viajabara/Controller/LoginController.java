@@ -6,6 +6,7 @@ import com.mx.viajabara.ServiceImpl.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class LoginController {
     ClienteServiceImpl clienteServiceImpl;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Cliente> login(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<Cliente> login(@ModelAttribute LoginDTO loginDTO){
         try{
             Cliente currentClient = clienteServiceImpl.login(loginDTO);
             return new ResponseEntity<>(currentClient, HttpStatus.OK);
