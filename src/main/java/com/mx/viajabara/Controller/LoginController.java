@@ -21,7 +21,7 @@ public class LoginController {
     ClienteServiceImpl clienteServiceImpl;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Cliente> login(@ModelAttribute LoginDTO loginDTO){
+    public ResponseEntity<Cliente> login(@RequestBody LoginDTO loginDTO){
         try{
             Cliente currentClient = clienteServiceImpl.login(loginDTO);
             return new ResponseEntity<>(currentClient, HttpStatus.OK);
