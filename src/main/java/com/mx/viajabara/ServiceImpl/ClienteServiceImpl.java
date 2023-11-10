@@ -60,7 +60,7 @@ public class ClienteServiceImpl implements ClienteService {
             if (clientesList == null){
                 return new Response("No hay rutas disponibles", null, false);
             }else{
-                return new Response("Ok", clientesList, false):
+                return new Response("Ok", clientesList, false);
             }
         }catch (Exception e){
             return new Response("Hubo un error al querer consultar a los clientes intente más tarde o comuniquese con el administrador",

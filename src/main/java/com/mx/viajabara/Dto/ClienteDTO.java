@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Builder
 public class ClienteDTO {
-    private Long idCliente;
+    private int idCliente;
 
     @NotNull(message = "Nombre invalido: Nombre es requerido")
     @NotBlank(message = "Nombre invalido: Nombre es NULL")
