@@ -1,55 +1,20 @@
 package com.mx.viajabara.Dto;
-
-<<<<<<< HEAD
 import com.mx.viajabara.Entity.Boleto;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-=======
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mx.viajabara.Entity.Boleto;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
->>>>>>> feature/login-registro
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-<<<<<<< HEAD
 @Builder
-public class ClienteDTO {
-    private int idCliente;
-
-    @NotNull(message = "Nombre invalido: Nombre es requerido")
-    @NotBlank(message = "Nombre invalido: Nombre es NULL")
-    private String nombre;
-
-    @NotNull(message = "Correo invalido: Correo es requerido")
-    @NotBlank(message = "Correo invalido: Correo es NULL")
-    @Email
-    private String correo;
-
-    @NotNull(message = "Clave invalido: Clave es requerido")
-    @NotBlank(message = "Clave invalido: Clave es NULL")
-    private String clave;
-
-
-    private String fotoPerfil;
-
-
-    private Date fechaNacimiento;
-
-
-=======
 public class ClienteDTO {
 
     @Id
@@ -76,6 +41,5 @@ public class ClienteDTO {
     @Past(message = "Fecha de nacimiento invalida: Debe ser en el pasado")
     private Date fechaNacimiento;
 
->>>>>>> feature/login-registro
     private List<Boleto> boletos;
 }
