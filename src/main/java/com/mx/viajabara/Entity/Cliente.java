@@ -1,7 +1,17 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import lombok.*;
+=======
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+>>>>>>> feature/login-registro
 
 import java.util.Date;
 import java.util.List;
@@ -9,10 +19,14 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Data
+@AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
 @Table(name = "CLIENTE")
+@ToString
 public class Cliente {
 
     @Id
