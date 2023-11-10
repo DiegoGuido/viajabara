@@ -1,26 +1,50 @@
 package com.mx.viajabara.ServiceImpl;
 
+import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Entity.Cliente;
+import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Repository.ClienteRepository;
 import com.mx.viajabara.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
     @Override
-    public boolean saveOrUpdateClient(Cliente cliente) {
-        boolean response = false;
+    public Response saveOrUpdateClient(ClienteDTO cliente) {
+        try {
 
-        Cliente clienteSave = clienteRepository.save(cliente);
+            Cliente clienteSave = Cliente.builder()
+                    .idCliente(cliente.getIdCliente())
+                    .nombre(cliente.getNombre())
+                    .correo(cliente.getCorreo())
+                    .clave(cliente.getClave())
+                    .fechaNacimiento(cliente.getFechaNacimiento())
+                    .fotoPerfil(cliente.getFotoPerfil())
+                    .boletos(cliente.getBoletos()).build();
 
-        if (clienteSave != null) response = true;
+            Cliente saved = clienteRepository.save(clienteSave);
 
-        return response;
+            if (saved != null){
+                return new Response("Cuenta guardada con exito", saved, false);
+            }else {
+                return new Response("Problemas al guardar la información del cliente, intentelo más tarde o contacte al administrador",
+                                    saved,
+                                    true);
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+            return new Response("Problemas al ejecutar el método para guardar la información del cliente, intentelo más tarde o contacte al administrador",
+                    null,
+                    true);
+
+        }
     }
 
     @Override
@@ -30,19 +54,51 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public List<Cliente> getAll() {
-      List<Cliente> clientes = clienteRepository.findAll();
-            return clientes;
+    public Response getAll() {
+        try{
+            List<Cliente> clientesList= clienteRepository.findAll();
+            if (clientesList == null){
+                return new Response("No hay rutas disponibles", null, false);
+            }else{
+                return new Response("Ok", clientesList, false):
+            }
+        }catch (Exception e){
+            return new Response("Hubo un error al querer consultar a los clientes intente más tarde o comuniquese con el administrador",
+                                null,
+                                true);
+        }
     }
 
     @Override
-    public boolean deleteCliente(Long id) {
-        clienteRepository.deleteById(id);
-        return getClienteById(id) == null;
+    public Response deleteCliente(Long id) {
+        try{
+            clienteRepository.deleteById(id);
+            Response eliminado = getClienteById(id);
+            if (eliminado.getError() && eliminado.getObject() == null){
+                return new Response("Eliminado correctamente", id, false);
+            }else{
+                return new Response("Problemas al eliminar la ruta con el id: " + id, id, true);
+            }
+        }catch (Exception e){
+            return new Response("Hubo un error al querer eliminar la ruta intente más tarde o comuniquese con el administrador",
+                                null,
+                                true);
+        }
     }
 
     @Override
-    public Cliente getClienteById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+    public Response getClienteById(Long id) {
+        try{
+            Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+            if (clienteOptional.isPresent()){
+                return new Response("Ok", clienteOptional.get(), false);
+            }else {
+                return new Response("No se encontro el cliente con el id" + id, null, true);
+            }
+        }catch (Exception e){
+            return new Response("Hubo un error al querer consultar la ruta intente más tarde o comuniquese con el administrador",
+                          null,
+                           true);
+        }
     }
 }
