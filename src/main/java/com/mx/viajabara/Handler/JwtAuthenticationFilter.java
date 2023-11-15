@@ -7,6 +7,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,24 +19,26 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-@Repository
-@RequiredArgsConstructor
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtServiceImpl jwtServiceImpl;
-    private final UserDetailsService userDetailsService;
+     @Autowired
+     JwtServiceImpl jwtServiceImpl;
+
+     @Autowired
+     UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
+         String authHeader = request.getHeader("Authorization");
+         String jwt;
+         String userEmail;
         if (authHeader == null || authHeader.startsWith("Bearer ") ){
              filterChain.doFilter(request, response);
              return;
         }
         jwt = authHeader.substring(7);
-        userEmail = jwtServiceImpl.extractUsername(jwt);// todo extract the UserEmail
+        userEmail = jwtServiceImpl.extractUsername(jwt);
         if (userEmail !=null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtServiceImpl.isTokenValid(jwt, userDetails)){

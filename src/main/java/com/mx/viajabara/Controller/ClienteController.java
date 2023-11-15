@@ -64,7 +64,7 @@ public class ClienteController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/user")
     public ResponseEntity<Response> saveUser(@RequestBody Usuario cliente){
         Response response = new Response();
         try{

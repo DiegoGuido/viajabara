@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class ClienteDTO {
 
-    @Id
+
     private int idCliente;
 
     @NotBlank(message = "Nombre invalido: Campo requerido")

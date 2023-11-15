@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "CLIENTE")
 @ToString
-public class Cliente extends Usuario {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
