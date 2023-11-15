@@ -4,12 +4,17 @@ import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.LoginDTO;
 import com.mx.viajabara.Entity.Cliente;
 import com.mx.viajabara.Entity.Response;
+import com.mx.viajabara.Entity.Role;
+import com.mx.viajabara.Entity.Usuario;
 import com.mx.viajabara.Repository.ClienteRepository;
+import com.mx.viajabara.Repository.UsuarioRepository;
 import com.mx.viajabara.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +23,19 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    JwtServiceImpl jwtService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
 
     @Override
     public Response saveOrUpdateClient(ClienteDTO cliente) {
@@ -102,6 +120,21 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public Response saveUser(Usuario usuario) {
+        Usuario usuarioSave = Usuario.builder()
+                .idUsuario(usuario.getIdUsuario())
+                .nombre(usuario.getNombre())
+                .correo(passwordEncoder.encode(usuario.getCorreo()))
+                .clave(usuario.getClave())
+                .fechaNacimiento(usuario.getFechaNacimiento())
+                .fotoPerfil(usuario.getFotoPerfil()).role(Role.USER)
+                .build();
+        usuarioRepository.save(usuarioSave);
+        var jwtToken = jwtService.generateToken(usuarioSave);
+        return new Response("Ok", jwtToken, false);
+    }
+
+    @Override
     public Cliente login(LoginDTO loginDTO) throws AuthenticationException {
         try {
             Optional<Cliente> currentCliente = clienteRepository.findByCorreoAndClave(loginDTO.getCorreo(),loginDTO.getClave());
@@ -114,6 +147,18 @@ public class ClienteServiceImpl implements ClienteService {
         } catch (Exception e) {
             throw new AuthenticationException("Ocurrió un error de autenticación");
         }
+    }
+
+    public Response loginUser(LoginDTO loginDTO){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.getCorreo(),
+                        loginDTO.getCorreo()
+                )
+        );
+        var user = usuarioRepository.findByCorreo(loginDTO.getCorreo()).orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        return new Response("Ok", jwtToken, false);
     }
 
 

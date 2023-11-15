@@ -4,6 +4,7 @@ import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.LoginDTO;
 import com.mx.viajabara.Entity.Cliente;
 import com.mx.viajabara.Entity.Response;
+import com.mx.viajabara.Entity.Usuario;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface ClienteService {
     Response deleteCliente(Long id);
     Cliente login(LoginDTO loginDTO) throws AuthenticationException;
     Response getClienteById(Long id);
-
+    Response saveUser(Usuario user);
 
 
 }
