@@ -64,19 +64,7 @@ public class ClienteController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/user")
-    public ResponseEntity<Response> saveUser(@RequestBody Usuario cliente){
-        Response response = new Response();
-        try{
-            response = clienteService.saveUser(cliente);
-            if (response.getError()) {
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-        }catch (Exception e){
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response> deleteClienteById(@PathVariable(name = "id") Long id) {

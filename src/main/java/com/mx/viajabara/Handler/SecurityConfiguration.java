@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-
+    @Autowired
     JwtAuthenticationFilter jwtAuthFilter;
 
     @Autowired
@@ -29,14 +29,14 @@ public class SecurityConfiguration {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(
                         auth ->
-                                auth.requestMatchers("/api/**").permitAll()
+                                auth.requestMatchers("/auth/**").permitAll()
                                         .anyRequest().authenticated()
                 )
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 ).authenticationProvider(authenticationProvider)
-                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
