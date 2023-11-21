@@ -1,9 +1,7 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -11,6 +9,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "VIAJE")
 public class Viaje {
 
@@ -20,7 +20,6 @@ public class Viaje {
     private int idViaje;
 
     @Column(name = "fecha_viaje")
-    @Temporal(TemporalType.DATE)
     private Date fechaViaje;
 
     @Column(name = "nombre")

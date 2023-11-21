@@ -60,7 +60,7 @@ public class RutaServiceImpl implements RutaService {
             if (ruta.isPresent()){
                 response.setMessage("Ok");
                 response.setError(false);
-                response.setObject(ruta);
+                response.setObject(ruta.get());
 
             }else {
                 response.setMessage("No se encontro la ruta con el id: " + id);
