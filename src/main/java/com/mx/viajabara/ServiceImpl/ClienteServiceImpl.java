@@ -37,7 +37,7 @@ public class ClienteServiceImpl implements ClienteService {
     AuthenticationManager authenticationManager;
 
 
-    @Override
+ /*   @Override
     public Response saveOrUpdateClient(ClienteDTO cliente) {
         try {
 
@@ -67,7 +67,7 @@ public class ClienteServiceImpl implements ClienteService {
                     true);
 
         }
-    }
+    }*/
 
     @Override
     public Response getAll() {
@@ -120,20 +120,40 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Response saveUser(Usuario usuario) {
-        Usuario usuarioSave = Usuario.builder()
-                .idUsuario(usuario.getIdUsuario())
-                .nombre(usuario.getNombre())
-                .correo(passwordEncoder.encode(usuario.getCorreo()))
-                .clave(usuario.getClave())
-                .fechaNacimiento(usuario.getFechaNacimiento())
-                .fotoPerfil(usuario.getFotoPerfil()).role(Role.USER)
-                .build();
-        usuarioRepository.save(usuarioSave);
-        var jwtToken = jwtService.generateToken(usuarioSave);
-        return new Response("Ok", jwtToken, false);
+    public Response saveUser(ClienteDTO usuario) {
+        try {
+            Usuario usuarioSave = Usuario.builder()
+                    .idUsuario(usuario.getIdCliente())
+                    .nombre(usuario.getNombre())
+                    .correo(usuario.getCorreo())
+                    .clave(passwordEncoder.encode(usuario.getClave()))
+                    .fechaNacimiento(usuario.getFechaNacimiento())
+                    .fotoPerfil(usuario.getFotoPerfil()).role(Role.USER)
+                    .build();
+
+            Cliente cliente = Cliente.builder()
+                    .idCliente(usuario.getIdCliente())
+                    .boletos(usuario.getBoletos())
+                    .usuario(usuarioSave).build();
+
+            Cliente clienteSaved =  clienteRepository.save(cliente);
+            Usuario usuarioSaved = usuarioRepository.save(usuarioSave);
+            if (clienteSaved !=null && usuarioSaved != null){
+                var jwtToken = jwtService.generateToken(usuarioSave);
+                usuarioSaved.setToken(jwtToken);
+                clienteSaved.setUsuario(usuarioSaved);
+                return new Response("Ok", clienteSaved, false);
+            }else{
+                return new Response("Problemas al guardar el usuario", usuario, true);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            return new Response("Problemas al intentar guardar el usuario, intentelo más tarde o comuniquese con el administrador", null, true);
+        }
+
     }
 
+    /*
     @Override
     public Cliente login(LoginDTO loginDTO) throws AuthenticationException {
         try {
@@ -147,18 +167,21 @@ public class ClienteServiceImpl implements ClienteService {
         } catch (Exception e) {
             throw new AuthenticationException("Ocurrió un error de autenticación");
         }
-    }
+    }*/
 
-    public Response loginUser(LoginDTO loginDTO){
+    public Response login(LoginDTO loginDTO){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getCorreo(),
-                        loginDTO.getCorreo()
+                        loginDTO.getClave()
                 )
         );
         var user = usuarioRepository.findByCorreo(loginDTO.getCorreo()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return new Response("Ok", jwtToken, false);
+        Cliente cliente = clienteRepository.findByUsuario(user);
+        user.setToken(jwtToken);
+        cliente.setUsuario(user);
+        return new Response("Ok", user, false);
     }
 
 

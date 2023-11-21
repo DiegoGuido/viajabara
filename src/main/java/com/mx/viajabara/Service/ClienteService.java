@@ -12,12 +12,12 @@ import java.util.List;
 public interface ClienteService {
 
 
-    Response saveOrUpdateClient( ClienteDTO cliente);
+    //Response saveOrUpdateClient( ClienteDTO cliente);
     Response getAll();
     Response deleteCliente(Long id);
-    Cliente login(LoginDTO loginDTO) throws AuthenticationException;
+    Response login(LoginDTO loginDTO) throws AuthenticationException;
     Response getClienteById(Long id);
-    Response saveUser(Usuario user);
+    Response saveUser(ClienteDTO clienteDTO);
 
 
 }

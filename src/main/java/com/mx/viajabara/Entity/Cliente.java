@@ -28,22 +28,11 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @Column(name = "nombre")
-    private String nombre;
-
-    @Column(name = "correo")
-    private String correo;
-
-    @Column(name = "clave")
-    private String clave;
-
-    @Column(name = "foto_perfil")
-    private String fotoPerfil;
-
-    @Column(name = "fecha_nacimiento")
-    private Date fechaNacimiento;
-
     @OneToMany(mappedBy = "cliente")
     private List<Boleto> boletos;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario")
+    private Usuario usuario;
 
 }

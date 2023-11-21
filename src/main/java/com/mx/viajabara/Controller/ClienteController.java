@@ -49,7 +49,7 @@ public class ClienteController {
     }
 
 
-
+/*
     @PostMapping(value = "/")
     public ResponseEntity<Response> saveCliente(@RequestBody @Valid ClienteDTO cliente){
         Response response = new Response();
@@ -62,7 +62,7 @@ public class ClienteController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+    }*/
 
 
 
