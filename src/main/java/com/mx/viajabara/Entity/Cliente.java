@@ -1,7 +1,13 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
@@ -9,10 +15,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@Builder
+@Data
 @AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "CLIENTE")
+@ToString
 public class Cliente {
 
     @Id
@@ -20,22 +28,11 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @Column(name = "nombre")
-    private String nombre;
-
-    @Column(name = "correo")
-    private String correo;
-
-    @Column(name = "clave")
-    private String clave;
-
-    @Column(name = "foto_perfil")
-    private String fotoPerfil;
-
-    @Column(name = "fecha_nacimiento")
-    private Date fechaNacimiento;
-
     @OneToMany(mappedBy = "cliente")
     private List<Boleto> boletos;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario")
+    private Usuario usuario;
 
 }
