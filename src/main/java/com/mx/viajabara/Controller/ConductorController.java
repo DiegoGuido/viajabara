@@ -1,8 +1,11 @@
 package com.mx.viajabara.Controller;
 
+import com.mx.viajabara.Dto.ConductorDTO;
 import com.mx.viajabara.Entity.Conductor;
+import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Service.ConductorService;
 import com.mx.viajabara.ServiceImpl.ConductorServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +23,47 @@ public class ConductorController {
     private ConductorServiceImpl conductorService;
 
     @GetMapping(value = "/")
-    public List<Conductor> getAll(){
-        List<Conductor> conductores = conductorService.getAll();
-        return conductores;
+    public ResponseEntity<Response> getAll(){
+        Response response = null;
+        try{
+            response = conductorService.getAll();
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Conductor> getConductorById(@PathVariable(name = "id") Long id){
-        Conductor conductor = conductorService.getConductorById(id);
-        if (conductor != null){
-            return ResponseEntity.ok(conductor);
+    public ResponseEntity<Response> getConductorById(@PathVariable(name = "id") int id){
+        Response response = new Response();
+        try {
+            response = conductorService.getConductorById(id);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.ok(null);
-    }
 
-    @PostMapping(value = "/")
-    public ResponseEntity<Boolean> saveConductor(@RequestBody Conductor conductor){
-        Boolean creado = conductorService.saveOrUpdateConductor(conductor);
-        return ResponseEntity.ok(creado);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Boolean> deleteConductorById(@PathVariable(name = "id") Long id){
-        Boolean eliminado = conductorService.deleteConductor(id);
-        return ResponseEntity.ok(eliminado);
+    public ResponseEntity<Response> deleteConductorById(@PathVariable(name = "id") int id){
+        Response response = new Response();
+        try {
+            response = conductorService.deleteConductor(id);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

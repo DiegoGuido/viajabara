@@ -35,6 +35,6 @@ public class ViajeDTO {
 
 
     @NotNull(message = "conductor invalido: Campo requerido")
-    private Long conductor;
+    private int conductor;
 
 }
