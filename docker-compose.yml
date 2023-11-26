@@ -14,7 +14,7 @@ services:
     image: mysql:8.0
     ports:
       - "3308:3306"
-     networks:
+    networks:
       - netStat
     environment:
       MYSQL_ROOT_PASSWORD: root
