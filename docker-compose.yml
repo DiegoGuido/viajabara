@@ -15,7 +15,6 @@ services:
       DATABASE_NAME: viajabara
     networks:
       - netStat
-
   db:
     image: mysql:8.0
     ports:
@@ -29,7 +28,6 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: viajabara
-
 networks:
   netStat:
     driver: bridge
