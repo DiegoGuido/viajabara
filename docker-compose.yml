@@ -1,5 +1,20 @@
 version: '2'
 services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/viajabara?autoReconnect=true&useSSL=false
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: viajabara
+    networks:
+      - netStat
   db:
     image: mysql:8.0
     ports:
