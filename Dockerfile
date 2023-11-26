@@ -21,4 +21,4 @@ COPY --from=builder /app/target/viajabara-0.0.1-SNAPSHOT.jar /app.jar
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación cuando se inicie el contenedor
-CMD ["java", "-jar", "/app.jar"]
+CMD ["sh", "-c", "sleep 40 && java -jar /app.jar"]
