@@ -1,24 +1,18 @@
-# Utiliza una imagen de Maven como base para la etapa de compilación
+# Etapa de compilación
 FROM maven:3.8.4-openjdk-17 AS builder
-
-# Establece el directorio de trabajo en /app
 WORKDIR /app
-
-# Copia el archivo pom.xml y el código fuente
 COPY pom.xml .
 COPY src ./src
-
-# Empaqueta la aplicación en un archivo JAR
 RUN mvn clean package
 
-# Utiliza una imagen de Java 17 como base para la etapa de ejecución
+# Etapa de ejecución
 FROM openjdk:17.0.2-jdk
-
-# Copia el archivo JAR generado desde el contenedor de compilación
 COPY --from=builder /app/target/viajabara-0.0.1-SNAPSHOT.jar /app.jar
-
-# Expone el puerto en el que se ejecuta tu aplicación
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación cuando se inicie el contenedor
-CMD ["java", "-jar", "/app.jar"]
+# Agrega el script wait-for-it.sh al contenedor
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# Espera a que la base de datos esté disponible antes de ejecutar la aplicación
+CMD /wait-for-it.sh -t 120 db:3306 -- java -jar /app.jar
