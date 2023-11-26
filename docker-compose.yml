@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   api:
     build:
@@ -10,8 +10,12 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/viajabara?autoReconnect=true&useSSL=false
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: viajabara
     networks:
       - netStat
+
   db:
     image: mysql:8.0
     ports:
@@ -20,11 +24,12 @@ services:
       - /home/ubuntu/sql-storage-volume:/var/lib/mysql
     networks:
       - netStat
-    environment:   
+    environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: viajabara
+
 networks:
   netStat:
     driver: bridge
