@@ -1,7 +1,10 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,4 +31,6 @@ public class Parada {
 
     @Column(name = "longitud")
     private String longitud;
+
+
 }

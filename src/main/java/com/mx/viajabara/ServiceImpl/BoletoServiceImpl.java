@@ -55,8 +55,8 @@ public class BoletoServiceImpl implements BoletoService {
                     .cliente(clienteRepository.findById(boleto.getClienteId()).get())
                     .viaje(viajeRepository.findById(boleto.getViajeId()).get())
                     .precio(boleto.getPrecio())
-                    .subida(paradaRepository.getById(boleto.getSubida()))
-                    .bajada(paradaRepository.getById(boleto.getBajada()))
+                    .subida(boleto.getSubida())
+                    .bajada(boleto.getBajada())
                     .build();
            Boleto boletoSaved = boletoRepository.save(boletoEntity);
            if (boletoSaved != null){

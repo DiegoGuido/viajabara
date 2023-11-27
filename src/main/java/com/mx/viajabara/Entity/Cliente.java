@@ -1,5 +1,6 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,10 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
     private Set<Boleto> boletos;
 
     @OneToOne(cascade = CascadeType.ALL)

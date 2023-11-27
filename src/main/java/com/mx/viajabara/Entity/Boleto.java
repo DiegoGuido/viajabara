@@ -1,5 +1,6 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,23 +21,22 @@ public class Boleto {
     @Column(name = "num_asiento")
     private int asiento;
 
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JsonIgnoreProperties("boletos")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "viaje")
+    @JsonIgnoreProperties("boletos")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_viaje")
     private Viaje viaje;
 
     @Column(name = "precio")
     private double precio;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subida")
-    private Parada subida;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bajada")
-    private Parada bajada;
+    private Long subida;
+
+
+    private Long bajada;
 }
