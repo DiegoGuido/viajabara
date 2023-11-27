@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoletoServiceImpl implements BoletoService {
@@ -43,7 +44,17 @@ public class BoletoServiceImpl implements BoletoService {
 
     @Override
     public Response deleteById(int id) {
-        return null;
+        try {
+            boletoRepository.deleteById(id);
+            Response eliminado = getById(id);
+            if (eliminado.getError() && eliminado.getObject() == null) {
+                return new Response("Se elimino correctamente", id, false);
+            }else {
+                return new Response("No se pudo eliminar el boleto con el id: " + id, id, true);
+            }
+        }catch (Exception e){
+            return new Response("Hubo problemas al querer eliminar el boleto, intentelo más tarde o comuniquese con el administrador", null, true);
+        }
     }
 
     @Override
@@ -71,6 +82,15 @@ public class BoletoServiceImpl implements BoletoService {
 
     @Override
     public Response getById(int id) {
-        return null;
+        try{
+            Optional<Boleto> boleto = boletoRepository.findById(id);
+            if (boleto.isPresent()){
+                return new Response("Ok", boleto, false);
+            }else {
+                return new Response("No se encontro el boleto con el siguiente id: " + id, id, true);
+            }
+        }catch (Exception e){
+            return new Response("Hubo problemas al querer ejecutar el método de obtener boleto", null, true);
+        }
     }
 }
