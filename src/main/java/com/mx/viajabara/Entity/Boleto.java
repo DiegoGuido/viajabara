@@ -1,14 +1,14 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "BOLETO")
 public class Boleto {
 
@@ -18,16 +18,25 @@ public class Boleto {
     private int idBoleto;
 
     @Column(name = "num_asiento")
-    private String asiento;
+    private int asiento;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "viaje")
     private Viaje viaje;
 
     @Column(name = "precio")
-    private int precio;
+    private double precio;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subida")
+    private Parada subida;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bajada")
+    private Parada bajada;
 }

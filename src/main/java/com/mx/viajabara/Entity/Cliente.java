@@ -11,6 +11,7 @@ import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,8 +29,8 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Boleto> boletos;
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Boleto> boletos;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario")
