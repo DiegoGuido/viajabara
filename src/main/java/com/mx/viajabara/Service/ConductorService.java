@@ -1,18 +1,20 @@
 package com.mx.viajabara.Service;
 
+import com.mx.viajabara.Dto.ConductorDTO;
 import com.mx.viajabara.Entity.Conductor;
+import com.mx.viajabara.Entity.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface ConductorService {
 
-    Boolean saveOrUpdateConductor(Conductor conductor);
+    Response saveOrUpdateConductor(ConductorDTO conductor);
 
-    List<Conductor> getAll();
+    Response getAll();
 
-    Boolean deleteConductor(Long id);
+    Response deleteConductor(int id);
 
-    Conductor getConductorById(Long id);
+    Response getConductorById(int id);
 
 }

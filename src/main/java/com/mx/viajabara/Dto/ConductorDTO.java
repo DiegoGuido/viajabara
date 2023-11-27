@@ -1,25 +1,17 @@
 package com.mx.viajabara.Dto;
-import com.mx.viajabara.Entity.Boleto;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder
-public class ClienteDTO {
+public class ConductorDTO {
 
-
-    private int idCliente;
+    private int idConductor;
 
     @NotBlank(message = "Nombre invalido: Campo requerido")
     @NotNull(message = "Nombre invalido: nombre es NULL")
@@ -42,5 +34,9 @@ public class ClienteDTO {
     @Past(message = "Fecha de nacimiento invalida: Debe ser en el pasado")
     private Date fechaNacimiento;
 
-    private Set<Boleto> boletos;
+    private String rfc;
+
+    @Min(0)
+    @Max(5)
+    private float puntuacion;
 }

@@ -2,15 +2,14 @@ package com.mx.viajabara.ServiceImpl;
 
 import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.LoginDTO;
-import com.mx.viajabara.Entity.Cliente;
-import com.mx.viajabara.Entity.Response;
-import com.mx.viajabara.Entity.Role;
-import com.mx.viajabara.Entity.Usuario;
+import com.mx.viajabara.Entity.*;
 import com.mx.viajabara.Repository.ClienteRepository;
+import com.mx.viajabara.Repository.ConductorRepository;
 import com.mx.viajabara.Repository.UsuarioRepository;
 import com.mx.viajabara.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-
+    @Autowired
+    ConductorRepository conductorRepository;
  /*   @Override
     public Response saveOrUpdateClient(ClienteDTO cliente) {
         try {
@@ -128,7 +128,8 @@ public class ClienteServiceImpl implements ClienteService {
                     .correo(usuario.getCorreo())
                     .clave(passwordEncoder.encode(usuario.getClave()))
                     .fechaNacimiento(usuario.getFechaNacimiento())
-                    .fotoPerfil(usuario.getFotoPerfil()).role(Role.USER)
+                    .fotoPerfil(usuario.getFotoPerfil())
+                    .role(Role.USER)
                     .build();
 
             Cliente cliente = Cliente.builder()
@@ -170,18 +171,30 @@ public class ClienteServiceImpl implements ClienteService {
     }*/
 
     public Response login(LoginDTO loginDTO){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getCorreo(),
-                        loginDTO.getClave()
-                )
-        );
-        var user = usuarioRepository.findByCorreo(loginDTO.getCorreo()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        Cliente cliente = clienteRepository.findByUsuario(user);
-        user.setToken(jwtToken);
-        cliente.setUsuario(user);
-        return new Response("Ok", user, false);
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDTO.getCorreo(),
+                            loginDTO.getClave()
+                    )
+            );
+            var user = usuarioRepository.findByCorreo(loginDTO.getCorreo()).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            user.setToken(jwtToken);
+            if (user.getRole().equals(Role.USER)){
+                Cliente cliente = clienteRepository.findByUsuario(user);
+                cliente.setUsuario(user);
+            }else {
+                Conductor conductor = conductorRepository.findByUsuario(user);
+                conductor.setUsuario(user);
+            }
+
+            return new Response("Ok", user, false);
+        }catch (BadCredentialsException e){
+            return new Response("Credenciales incorrectas", null, true);
+        }catch (Exception e){
+            return new Response("Ocurrio un problema con el método de login, intentelo más tarde o comuniquese con el administrador", null, true);
+        }
     }
 
 

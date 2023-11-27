@@ -49,6 +49,7 @@ public class ViajeServiceImpl implements ViajeService {
                             .ruta(rutaService.rutaRepository.findById(viaje.getRuta()).get())
                             .vehiculo(vehiculoService.vehiculoRepository.findById(viaje.getVehiculo()).get())
                             .conductor(conductorService.conductorRepository.findById(viaje.getConductor()).get())
+                            .numAsientosDisponibles(viaje.getNum_asientos_disponibles())
                             .build();
 
             Viaje viajeGuardado = viajeRepository.save(viajeValidado);

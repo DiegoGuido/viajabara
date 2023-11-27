@@ -1,36 +1,29 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "CONDUCTOR")
 public class Conductor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_conductor")
-    private Long idConductor;
-
-    @Column(name = "nombre")
-    private String nombre;
+    private int idConductor;
 
     @Column(name = "rfc")
     private String rfc;
 
-    @Column(name = "foto_perfil")
-    private String fotoPerfil;
-
     @Column(name = "puntuacion")
     private float puntuacion;
 
-    @Column(name = "correo")
-    private String correo;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario")
+    private Usuario usuario;
 
-    @Column(name = "numero_telefono")
-    private String numeroTelefono;
 }

@@ -1,9 +1,11 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,4 +41,10 @@ public class Viaje {
     @OneToOne
     @JoinColumn(name = "conductor")
     private Conductor conductor;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "viaje",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
+    private Set<Boleto> boletos;
 }

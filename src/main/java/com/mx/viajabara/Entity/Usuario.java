@@ -47,6 +47,9 @@ public class Usuario implements UserDetails {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "numero_telefono")
+    private String numeroTelefono;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
