@@ -1,5 +1,6 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,8 +30,11 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Boleto> boletos;
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
+    private Set<Boleto> boletos;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario")

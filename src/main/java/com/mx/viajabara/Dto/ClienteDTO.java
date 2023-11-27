@@ -12,6 +12,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -41,5 +42,5 @@ public class ClienteDTO {
     @Past(message = "Fecha de nacimiento invalida: Debe ser en el pasado")
     private Date fechaNacimiento;
 
-    private List<Boleto> boletos;
+    private Set<Boleto> boletos;
 }
