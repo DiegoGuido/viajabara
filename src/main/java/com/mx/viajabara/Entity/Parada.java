@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,5 +33,7 @@ public class Parada {
     @Column(name = "longitud")
     private String longitud;
 
-
+    @ManyToMany(mappedBy = "paradas")
+    @JsonIgnore
+    private List<Ruta> rutaList;
 }

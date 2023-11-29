@@ -1,5 +1,6 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,12 +22,12 @@ public class Boleto {
     @Column(name = "num_asiento")
     private int asiento;
 
-    @JsonIgnoreProperties("boletos")
+    @JsonIgnoreProperties({"boletos", "usuario"})
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    @JsonIgnoreProperties("boletos")
+    @JsonIgnoreProperties({"boletos", "ruta", "conductor", "vehiculo"})
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_viaje")
     private Viaje viaje;

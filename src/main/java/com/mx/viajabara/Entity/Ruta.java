@@ -1,5 +1,6 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.google.gson.JsonArray;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@ToString
 @Table(name = "RUTA")
 public class Ruta {
 
@@ -22,9 +23,16 @@ public class Ruta {
     @Column(name = "id_ruta")
     private int idRuta;
 
-    @Column(name = "paradas")
+  /*  @Column(name = "paradas")
     @JsonRawValue
     @NonNull
-    private String paradas;
+    private String paradas;*/
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "ruta_paradas",
+            joinColumns = @JoinColumn(name = "id_ruta"),
+            inverseJoinColumns = @JoinColumn(name = "id_parada"))
+    private List<Parada> paradas;
 
 }
