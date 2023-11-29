@@ -184,12 +184,14 @@ public class ClienteServiceImpl implements ClienteService {
             if (user.getRole().equals(Role.USER)){
                 Cliente cliente = clienteRepository.findByUsuario(user);
                 cliente.setUsuario(user);
+                return new Response("Ok", cliente, false);
             }else {
                 Conductor conductor = conductorRepository.findByUsuario(user);
                 conductor.setUsuario(user);
+                return new Response("Ok", conductor, false);
             }
 
-            return new Response("Ok", user, false);
+
         }catch (BadCredentialsException e){
             return new Response("Credenciales incorrectas", null, true);
         }catch (Exception e){

@@ -30,7 +30,7 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "cliente",
             cascade = CascadeType.PERSIST,
             orphanRemoval = true)
