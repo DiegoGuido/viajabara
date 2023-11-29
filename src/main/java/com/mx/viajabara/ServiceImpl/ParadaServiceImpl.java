@@ -61,7 +61,7 @@ public class ParadaServiceImpl implements ParadaService {
             if (parada.isPresent()){
                 response.setMessage("Ok");
                 response.setError(false);
-                response.setObject(parada);
+                response.setObject(parada.get());
 
             }else {
                 response.setMessage("No se encontro la parada con el id: " + id);

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.mx.viajabara.Dto.ParadaDTO;
+import com.mx.viajabara.Dto.RutaDTO;
 import com.mx.viajabara.Entity.Parada;
 import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Entity.Ruta;
@@ -97,74 +98,32 @@ public class RutaServiceImpl implements RutaService {
     }
 
     @Override
-    public Response saveOrUpdateRuta(Object ruta){
-        Gson gson = new Gson();
-        Response response = new Response();
-
-        try {
-            //Obtenemos el array de paradas designadas en la ruta
-            JsonArray jsonObject = JsonParser.parseString(new Gson().toJson(ruta)).getAsJsonObject().getAsJsonArray("paradas");
-            //Convertimos el objeto Json a un Array de paradas
-            ParadaDTO[] paradaArray = new Gson().fromJson(jsonObject, ParadaDTO[].class);
-
-            //Después de eso validamos las paradas que vengan en el array
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            Validator validator = factory.getValidator();
-
-            //Se valida que las paradas sean correctas
-            List<ConstraintViolation<ParadaDTO>> violationsGeneral = new LinkedList<>();
-
-            for (ParadaDTO parada: paradaArray){
-                Set<ConstraintViolation<ParadaDTO>> violations = validator.validate(parada);
-                violationsGeneral.addAll(violations);
-            }
-
-            if (violationsGeneral.isEmpty()){
-                for (ParadaDTO paradaDTO: paradaArray){
-                    Parada parada = Parada.builder()
-                            .idParada(paradaDTO.getIdParada())
-                            .nombre(paradaDTO.getNombre())
-                            .descripcion(paradaDTO.getDescripcion())
-                            .latitud(paradaDTO.getLatitud())
-                            .longitud(paradaDTO.getLongitud()).build();
-
-                    Response paradaEncontrada = paradaService.getParadaById(parada.getIdParada());
-                    if (paradaEncontrada.getError()){
-                        return paradaEncontrada;
+    public Response saveOrUpdateRuta(RutaDTO ruta){
+        try{
+            List<Long> idParadas = ruta.getParadas();
+            List<Parada> paradas = new ArrayList<>();
+                for (Long idParada: idParadas) {
+                    Response paradaTmp =  paradaService.getParadaById(idParada);
+                    if (paradaTmp.getError()){
+                        return paradaTmp;
+                    }else {
+                        paradas.add((Parada) paradaTmp.getObject());
                     }
                 }
 
-                Ruta rutaGuardada = rutaRepository.save(new Ruta(gson.toJson(ruta))
-                );
+                Ruta rutaSave = Ruta.builder().idRuta(ruta.getIdRuta()).paradas(paradas).build();
 
-                if (rutaGuardada != null){
-                    response.setObject(rutaGuardada);
-                    response.setError(false);
-                    response.setMessage("Ruta guardada con exito");
+                Ruta rutaSaved = rutaRepository.save(rutaSave);
+
+                if (rutaSaved !=null){
+                    return new Response("Ruta guardada exitosamente", rutaSaved, false);
                 }else {
-                    response.setObject(rutaGuardada);
-                    response.setError(true);
-                    response.setMessage("Problemas al guardar la ruta, intentelo más tarde o contacte al administrador");
+                    return new Response("Hubo problemas al querer guardar el objeto", rutaSaved, true);
                 }
-
-            }else {
-                HashMap<String, List<String>> errorResponse = new HashMap<>();
-                List<String> errors = new LinkedList<>();
-                for (ConstraintViolation<ParadaDTO> violation : violationsGeneral){
-                    errors.add(violation.getMessage() + " id: "+ violation.getRootBean().getIdParada());
-                }
-                errorResponse.put("Errors", errors);
-                response.setObject(errorResponse);
-                response.setMessage("Paradas invalidas");
-                response.setError(true);
-            }
-
         }catch (Exception e){
-            response.setObject(null);
-            response.setError(true);
-            response.setMessage("Problemas al ejecutar el método para guardar la ruta, intentelo más tarde o contacte al administrador");
             System.out.println(e);
+            return new Response("Hubo problemas al ejecutar el método save, intente más tarde o comuniquese con el administrador", null, true);
         }
-        return response;
     }
+
 }
