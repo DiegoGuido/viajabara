@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ParadaService {
 
-    Boolean saveOrUpdateConductor(ParadaDTO parada);
+    Response saveOrUpdateParada(ParadaDTO parada);
 
-    List<Parada> getAll();
+    Response getAll();
 
-    String deleteParada(Long id);
+    Response deleteParada(Long id);
 
     Response getParadaById(Long id);
 
