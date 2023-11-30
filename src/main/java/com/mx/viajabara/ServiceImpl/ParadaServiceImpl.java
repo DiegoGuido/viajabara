@@ -43,9 +43,9 @@ public class ParadaServiceImpl implements ParadaService {
         try{
             List<Parada> paradasList = paradaRepository.findAll();
             if (paradasList.isEmpty()){
-                return new Response("No hay paradas disponibles", null, false);
+                return new Response("No hay paradas disponibles", null, true);
             }else {
-                return new Response("Ok", paradasList, true);
+                return new Response("Ok", paradasList, false);
             }
         }catch (Exception e){
             return new Response("Hubo problemas al querer ejecutar el método para obtener las paradas, intentelo más tarde o comuniquese con el administrador", null, true);
