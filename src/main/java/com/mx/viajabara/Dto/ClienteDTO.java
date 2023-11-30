@@ -43,4 +43,6 @@ public class ClienteDTO {
     private Date fechaNacimiento;
 
     private Set<Boleto> boletos;
+
+    private String numTelefono;
 }

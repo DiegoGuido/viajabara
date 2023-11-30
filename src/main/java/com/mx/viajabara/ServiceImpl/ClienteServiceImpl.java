@@ -129,6 +129,7 @@ public class ClienteServiceImpl implements ClienteService {
                     .clave(passwordEncoder.encode(usuario.getClave()))
                     .fechaNacimiento(usuario.getFechaNacimiento())
                     .fotoPerfil(usuario.getFotoPerfil())
+                    .numeroTelefono(usuario.getNumTelefono())
                     .role(Role.USER)
                     .build();
 
