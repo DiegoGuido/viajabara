@@ -25,30 +25,25 @@ public class ParadaController {
     public ResponseEntity<Response> getAll(){
         Response response = new Response();
         try {
-            List<Parada> paradas = paradaService.getAll();
-            response.setMessage("Ok");
-            response.setObject(paradas);
+             response = paradaService.getAll();
+            if (response.getError()){
+                return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            }
         }catch (Exception e){
-            response.setMessage("Error al consultar las paradas");
-            response.setObject(null);
+            return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("/")
     public ResponseEntity<Response> saveOrUpdate(@RequestBody @Valid ParadaDTO parada){
-        Boolean saved = false;
         Response response = new Response();
         try{
-             saved = paradaService.saveOrUpdateConductor(parada);
-            if (saved){
-                response.setMessage("Guardado correctamente");
-                response.setObject(saved);
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
+            response = paradaService.saveOrUpdateParada(parada);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e){
-            response.setMessage("Error al guardar - Consulte a su administrador");
-            response.setObject(saved);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -72,12 +67,12 @@ public class ParadaController {
     public ResponseEntity<Response> deleteById(@PathVariable(name = "id") Long id){
         Response response = new Response();
         try{
-            String deleted = paradaService.deleteParada(id);
-            response.setMessage("Ok");
-            response.setObject(deleted);
+            response = paradaService.deleteParada(id);
+            if (response.getError()){
+                return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+            }
         }catch (Exception e){
-            response.setMessage("Problemas para eliminar la parada id -" + id);
-            response.setObject(id);
+            return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
