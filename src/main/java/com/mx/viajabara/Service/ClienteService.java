@@ -18,6 +18,7 @@ public interface ClienteService {
     Response login(LoginDTO loginDTO) throws AuthenticationException;
     Response getClienteById(Long id);
     Response saveUser(ClienteDTO clienteDTO);
+    Response getBoletosByCliente(Long idCliente);
 
 
 }

@@ -48,7 +48,19 @@ public class ClienteController {
         }
     }
 
-
+    @GetMapping("/boletos/{id}")
+    public ResponseEntity<Response> getBoletosByCliente(@PathVariable(name = "id") Long id){
+        try{
+            Response response = clienteService.getBoletosByCliente(id);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }else{
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<>(new Response(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 /*
     @PostMapping(value = "/")
     public ResponseEntity<Response> saveCliente(@RequestBody @Valid ClienteDTO cliente){
