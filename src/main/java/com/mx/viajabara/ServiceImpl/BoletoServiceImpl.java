@@ -76,6 +76,8 @@ public class BoletoServiceImpl implements BoletoService {
                return new Response("Hubo problemas al guardar el boleto", boletoSaved, true);
            }
         }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
             return new Response("Hubo problemas al querer ejecutar el método para guardar el boleto", null, true);
         }
     }
