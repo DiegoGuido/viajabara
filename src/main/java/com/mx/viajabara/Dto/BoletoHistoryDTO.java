@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -25,7 +26,7 @@ public class BoletoHistoryDTO {
 
     private String viaje;
 
-    private Date fecha;
+    private LocalDate fecha;
 
     private double precio;
 

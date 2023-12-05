@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -33,4 +35,9 @@ public class Vehiculo {
 
     @Column(name = "alias", nullable = false)
     private String alias;
+
+    @OneToMany(mappedBy = "vehiculo",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
+    private Set<Viaje> viajes;
 }

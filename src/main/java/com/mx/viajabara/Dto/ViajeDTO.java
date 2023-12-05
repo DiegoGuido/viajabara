@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,9 +23,9 @@ public class ViajeDTO {
     @NotNull(message = "asientos invalidos: Campo requerido")
     private int num_asientos_disponibles;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Future(message = "Fecha de viaje: Debe ser en el futuro")
-    private Date fechaViaje;
+    private LocalDate fechaViaje;
 
     @NotNull(message = "ruta invalida: Campo requerido")
     private Long ruta;
@@ -37,4 +38,5 @@ public class ViajeDTO {
     @NotNull(message = "conductor invalido: Campo requerido")
     private int conductor;
 
+    private boolean viajeIniciado;
 }

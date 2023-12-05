@@ -3,6 +3,8 @@ package com.mx.viajabara.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -25,5 +27,11 @@ public class Conductor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario")
     private Usuario usuario;
+
+
+    @OneToMany(mappedBy = "conductor",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true)
+    private Set<Viaje> viajes;
 
 }
