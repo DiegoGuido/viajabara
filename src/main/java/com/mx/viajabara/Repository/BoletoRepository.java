@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 public interface BoletoRepository extends JpaRepository<Boleto, Integer> {
 
-    List<Boleto> findByCliente(Cliente cliente);
-
     Boolean deleteAllByCliente(Cliente cliente);
 
 }

@@ -1,10 +1,12 @@
 package com.mx.viajabara.ServiceImpl;
 
+import com.mx.viajabara.Dto.BoletoHistoryDTO;
 import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.LoginDTO;
 import com.mx.viajabara.Entity.*;
 import com.mx.viajabara.Repository.ClienteRepository;
 import com.mx.viajabara.Repository.ConductorRepository;
+import com.mx.viajabara.Repository.ParadaRepository;
 import com.mx.viajabara.Repository.UsuarioRepository;
 import com.mx.viajabara.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -31,6 +35,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     JwtServiceImpl jwtService;
+
+    @Autowired
+    ParadaRepository paradaRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -108,7 +115,9 @@ public class ClienteServiceImpl implements ClienteService {
         try {
             Optional<Cliente> clienteOptional = clienteRepository.findById(id);
             if (clienteOptional.isPresent()) {
-                return new Response("Ok", clienteOptional.get(), false);
+                Cliente cliente = clienteOptional.get();
+                cliente.setBoletos(null);
+                return new Response("Ok", cliente, false);
             } else {
                 return new Response("No se encontro el cliente con el id" + id, null, true);
             }
@@ -184,6 +193,7 @@ public class ClienteServiceImpl implements ClienteService {
             user.setToken(jwtToken);
             if (user.getRole().equals(Role.USER)){
                 Cliente cliente = clienteRepository.findByUsuario(user);
+                cliente.setBoletos(null);
                 cliente.setUsuario(user);
                 return new Response("Ok", cliente, false);
             }else {
@@ -201,5 +211,35 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
 
+    @Override
+    public Response getBoletosByCliente(Long idCliente){
+        try {
+            Optional<Cliente> cliente = clienteRepository.findById(idCliente);
+            if (cliente.isPresent()){
+                Set<Boleto> boletosNormales = cliente.get().getBoletos();
+                List<BoletoHistoryDTO> boletos = new ArrayList<>();
+                for (Boleto boleto:
+                        boletosNormales) {
+                    BoletoHistoryDTO boletoHistoryDTO = BoletoHistoryDTO.builder()
+                            .idBoleto(boleto.getIdBoleto())
+                            .asiento(boleto.getAsiento())
+                            .viaje(boleto.getViaje().getNombre())
+                            .fecha(boleto.getViaje().getFechaViaje())
+                            .precio(boleto.getPrecio())
+                            .subida(paradaRepository.findById(boleto.getSubida()).get().getNombre())
+                            .bajada(paradaRepository.findById(boleto.getBajada()).get().getNombre())
+                            .nombreConductor(boleto.getViaje().getConductor().getUsuario().getNombre())
+                            .modeloAuto(boleto.getViaje().getVehiculo().getModelo()).build();
+
+                    boletos.add(boletoHistoryDTO);
+                }
+                return new Response("Ok", boletos, false);
+            }else {
+                return new Response("No se encontro al usuario", null, true);
+            }
+        }catch (Exception e){
+            return new Response("Error al ejecutar el método para obtener los boletos del cliente", null, true);
+        }
+    }
 
 }

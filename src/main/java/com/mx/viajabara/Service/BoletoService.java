@@ -10,4 +10,5 @@ public interface BoletoService {
     Response deleteById(int id);
     Response saveBoleto(BoletoDTO boleto);
     Response getById(int id);
+
 }
