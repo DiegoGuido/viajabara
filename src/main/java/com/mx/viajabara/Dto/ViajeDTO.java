@@ -24,7 +24,8 @@ public class ViajeDTO {
     private int num_asientos_disponibles;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Future(message = "Fecha de viaje: Debe ser en el futuro")
+
+    @FutureOrPresent(message = "Fecha de viaje incorrecta")
     private LocalDate fechaViaje;
 
     @NotNull(message = "ruta invalida: Campo requerido")

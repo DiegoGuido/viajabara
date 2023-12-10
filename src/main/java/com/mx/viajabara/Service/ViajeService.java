@@ -17,4 +17,6 @@ public interface ViajeService {
     Response filter(Long salida, Long llegada, String fecha);
 
     Response iniciarViaje(int idViaje);
+
+    Response getPasajerosBajanSuben(int idViaje, Long idParada);
 }

@@ -105,5 +105,18 @@ public class ViajesController {
        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
    }
 
-
+    @GetMapping("/{idViaje}/{idParada}")
+    public ResponseEntity<Response> getPasajerosBajanSuben(@PathVariable(name = "idViaje") int idViaje,
+                                                           @PathVariable(name = "idParada") Long idParada){
+        Response response = new Response();
+        try {
+            response = viajeService.getPasajerosBajanSuben(idViaje, idParada);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
 }

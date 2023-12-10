@@ -146,6 +146,7 @@ public class ViajeServiceImpl implements ViajeService {
                    clientesSuben.add(boleto);
                }
             }
+            viajeRepository.save(viaje);
             if (clientesSuben.isEmpty()){
                 return new Response("Ningun usuario sube en esta parada", null, false);
             }else {
@@ -153,6 +154,32 @@ public class ViajeServiceImpl implements ViajeService {
             }
         }catch (Exception e){
             return new Response("Hubo problemas al iniciar el viaje", null, true);
+        }
+    }
+
+    @Override
+    public Response getPasajerosBajanSuben(int idViaje, Long idParada){
+        try {
+            Viaje viaje = viajeRepository.findById(idViaje).get();
+            Parada parada = paradaRepository.findById(idParada).get();
+            Set<Boleto> boletosViaje =  viaje.getBoletos();
+            List<Cliente> clienteListBajan = new ArrayList<>();
+            List<Cliente> clienteSuben = new ArrayList<>();
+            Map<String, List<Cliente>> clientes= new HashMap<String, List<Cliente>>() ;
+            for (Boleto boleto:
+                 boletosViaje) {
+                if (paradaRepository.findById(boleto.getBajada()).get().equals(parada)){
+                    clienteListBajan.add(boleto.getCliente());
+                }
+                if (paradaRepository.findById(boleto.getSubida()).get().equals(parada)){
+                    clienteSuben.add(boleto.getCliente());
+                }
+            }
+            clientes.put("clientesBajan", clienteListBajan);
+            clientes.put("clientesSuben", clienteSuben);
+            return new Response("Ok", clientes, false);
+        }catch (Exception e){
+            return new Response("Hubo un error al obtener la lista de pasajeros", null, false);
         }
     }
 }

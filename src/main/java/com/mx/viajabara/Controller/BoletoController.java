@@ -1,6 +1,7 @@
 package com.mx.viajabara.Controller;
 
 import com.mx.viajabara.Dto.BoletoDTO;
+import com.mx.viajabara.Dto.ValidateBoletoDTO;
 import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.ServiceImpl.BoletoServiceImpl;
 import jakarta.validation.Valid;
@@ -68,6 +69,17 @@ public class BoletoController {
             if (response.getError()){
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
+        }catch (Exception e) {
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("validar/")
+    ResponseEntity<Response> validateBoletos(@RequestBody ValidateBoletoDTO validateBoletoDTODTO){
+        Response response = new Response();
+        try {
+            response = boletoService.validateBoletos(validateBoletoDTODTO);
         }catch (Exception e) {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@ToString
 @Table(name = "BOLETO")
 public class Boleto {
 
