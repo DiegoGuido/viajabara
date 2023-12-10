@@ -29,9 +29,12 @@ public class SecurityConfiguration {
     AuthenticationProvider authenticationProvider;
 
     @Bean
+    @SuppressWarnings({ "removal", "deprecation" })
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
+                .csrf().disable()
                 .authorizeHttpRequests(
                         auth ->
                                 auth.requestMatchers("/auth/**").permitAll()
@@ -39,10 +42,9 @@ public class SecurityConfiguration {
                 )
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                ).authenticationProvider(authenticationProvider)
+                )
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }

@@ -6,14 +6,18 @@ import com.mx.viajabara.Entity.Parada;
 import com.mx.viajabara.Entity.Viaje;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-@Data
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoletoHistoryDTO {
 
     @Id
