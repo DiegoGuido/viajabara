@@ -39,7 +39,7 @@ public class VehiculoServiceImpl implements VehiculoService {
             if (vehiculos.isEmpty()){
                 return new Response("No hay vehiculos listados", null, false);
             }else {
-                return new Response("Ok", vehiculos, true);
+                return new Response("Ok", vehiculos, false);
             }
         }catch (Exception e){
             return new Response("Hubo problemas al querer ejecutar el método para obtener los vehículos", null, true);
