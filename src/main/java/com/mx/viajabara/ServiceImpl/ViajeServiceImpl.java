@@ -70,6 +70,7 @@ public class ViajeServiceImpl implements ViajeService {
             return new Response("Alguno de los datos ingresados no existe (Conductor, Vehiculo, Ruta)", null, true);
         }
         catch (Exception e){
+            System.out.println(e);
             return new Response("Error al querer guardar el viaje, intentelo más tarde o comuniquese con el administrador", null, true);
         }
     }

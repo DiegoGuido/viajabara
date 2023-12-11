@@ -48,8 +48,7 @@ public class Viaje {
 
     @JsonIgnore
     @OneToMany(mappedBy = "viaje",
-            cascade = CascadeType.PERSIST,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private Set<Boleto> boletos;
 
     @Column(name = "viaje_iniciado")
