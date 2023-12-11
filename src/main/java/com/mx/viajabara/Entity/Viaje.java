@@ -41,7 +41,7 @@ public class Viaje {
     @JoinColumn(name = "id_vehiculo")
     private Vehiculo vehiculo;
 
-    @JsonIgnoreProperties({"viajes", "usuario"})
+    @JsonIgnoreProperties({"viajes"})
     @ManyToOne
     @JoinColumn(name = "id_conductor")
     private Conductor conductor;
