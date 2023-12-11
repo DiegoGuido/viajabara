@@ -183,9 +183,25 @@ public class BoletoServiceImpl implements BoletoService {
 
             }
         }
-
-
-
         return cantidadDisponible;
+    }
+
+    @Override
+    public Response getAsientosDisponibles(int idViaje, Long paradaSubir, Long paradaBajar){
+        Viaje viaje = viajeRepository.findById(idViaje).get();
+        Set<Boleto> boletos = viaje.getBoletos();
+        List<Parada> listaParadas = viaje.getRuta().getParadas();
+        Parada subirParada = paradaRepository.findById(paradaSubir).get();
+        int indexParadaSubir = listaParadas.indexOf(subirParada);
+        List<Integer> boletosOcupados = new ArrayList<>();
+
+        for (Boleto boleto:
+             boletos) {
+            if (indexParadaSubir < listaParadas.indexOf(paradaRepository.findById(boleto.getBajada()).get())){
+                boletosOcupados.add(boleto.getAsiento());
+            }
+        }
+
+        return new Response("Ok", boletosOcupados, false);
     }
 }

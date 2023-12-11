@@ -85,4 +85,16 @@ public class BoletoController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("{idViaje}/{idParada}")
+    ResponseEntity<Response> getAsientosOcupados(@PathVariable(name = "idViaje") int idViaje,
+                                                 @PathVariable(name = "idParada") Long idParada){
+        Response response = new Response();
+        try {
+            response = boletoService.getAsientosDisponibles(idViaje, idParada, idParada);
+        }catch (Exception e) {
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
