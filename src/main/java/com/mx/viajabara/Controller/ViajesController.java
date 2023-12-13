@@ -119,4 +119,18 @@ public class ViajesController {
         }
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
     }
+
+    @PostMapping("/terminarViaje/{idViaje}")
+    public ResponseEntity<Response> terminarViaje(@PathVariable(name = "idViaje") int idViaje){
+        Response response = new Response();
+        try {
+            response = viajeService.terminarViaje(idViaje);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.OK);
+    }
 }

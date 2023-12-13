@@ -108,6 +108,8 @@ public class ViajeServiceImpl implements ViajeService {
         }
     }
 
+
+
     @Override
     public Response filter(Long llegada, Long subida, String fecha){
         try {
@@ -187,6 +189,23 @@ public class ViajeServiceImpl implements ViajeService {
             return new Response("Ok", clientes, false);
         }catch (Exception e){
             return new Response("Hubo un error al obtener la lista de pasajeros", null, false);
+        }
+    }
+
+    @Override
+    public Response terminarViaje(int idViaje){
+        try{
+            Viaje viaje = viajeRepository.findById(idViaje).get();
+            viaje.setViajeIniciado(false);
+            Set<Boleto> boletos = viaje.getBoletos();
+            for (Boleto boleto: boletos){
+                Cliente cliente = boleto.getCliente();
+                cliente.setViajeActivo(false);
+                clienteRepository.save(cliente);
+            }
+            return new Response("Ok", viaje, false);
+        }catch (Exception e){
+            return new Response("Hubo problemas al terminar el viaje", null, true);
         }
     }
 }

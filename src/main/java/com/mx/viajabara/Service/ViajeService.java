@@ -19,4 +19,6 @@ public interface ViajeService {
     Response iniciarViaje(int idViaje);
 
     Response getPasajerosBajanSuben(int idViaje, Long idParada);
+
+    Response terminarViaje(int idViaje);
 }
