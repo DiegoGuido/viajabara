@@ -43,4 +43,6 @@ public class ConductorDTO {
     @Min(0)
     @Max(5)
     private float puntuacion;
+
+    private String numeroTelefono;
 }

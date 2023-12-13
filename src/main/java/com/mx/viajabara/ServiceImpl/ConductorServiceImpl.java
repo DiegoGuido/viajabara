@@ -47,6 +47,7 @@ public class ConductorServiceImpl implements ConductorService {
                     .fechaNacimiento(usuario.getFechaNacimiento())
                     .fotoPerfil(usuario.getFotoPerfil())
                     .role(Role.CONDUCTOR)
+                    .numeroTelefono(usuario.getNumeroTelefono())
                     .build();
 
             Conductor conductor = Conductor.builder()
