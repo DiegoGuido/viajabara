@@ -53,4 +53,7 @@ public class Viaje {
 
     @Column(name = "viaje_iniciado")
     private boolean viajeIniciado;
+
+    @Column(name = "hora")
+    private String hora;
 }

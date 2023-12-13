@@ -42,4 +42,6 @@ public class BoletoHistoryDTO {
 
     private String modeloAuto;
 
+    private String hora;
+
 }

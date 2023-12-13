@@ -57,6 +57,7 @@ public class ViajeServiceImpl implements ViajeService {
                             .vehiculo(vehiculoService.vehiculoRepository.findById(viaje.getVehiculo()).get())
                             .conductor(conductorService.conductorRepository.findById(viaje.getConductor()).get())
                             .numAsientosDisponibles(viaje.getNum_asientos_disponibles())
+                            .hora(viaje.getHora())
                             .viajeIniciado(false)
                             .build();
 

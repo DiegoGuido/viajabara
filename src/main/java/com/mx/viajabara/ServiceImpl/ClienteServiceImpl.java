@@ -188,7 +188,9 @@ public class ClienteServiceImpl implements ClienteService {
                             .subida(paradaRepository.findById(boleto.getSubida()).get().getNombre())
                             .bajada(paradaRepository.findById(boleto.getBajada()).get().getNombre())
                             .nombreConductor(boleto.getViaje().getConductor().getUsuario().getNombre())
-                            .modeloAuto(boleto.getViaje().getVehiculo().getModelo()).build();
+                            .modeloAuto(boleto.getViaje().getVehiculo().getTipo())
+                            .hora(boleto.getViaje().getHora())
+                            .build();
 
                     boletos.add(boletoHistoryDTO);
                 }

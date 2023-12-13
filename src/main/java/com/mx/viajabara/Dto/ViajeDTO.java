@@ -44,4 +44,6 @@ public class ViajeDTO {
     private int conductor;
 
     private boolean viajeIniciado;
+
+    private String hora;
 }
