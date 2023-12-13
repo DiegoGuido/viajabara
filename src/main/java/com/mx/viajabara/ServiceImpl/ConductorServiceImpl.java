@@ -69,6 +69,8 @@ public class ConductorServiceImpl implements ConductorService {
             }
 
         }catch (Exception e){
+
+            System.out.println(e);
                 return new Response("Problemas al querer guardar un conductor", null, true);
         }
     }

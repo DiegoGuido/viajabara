@@ -204,4 +204,21 @@ public class BoletoServiceImpl implements BoletoService {
 
         return new Response("Ok", boletosOcupados, false);
     }
+
+    @Override
+    public Response getCantidadParadas(Long idSubida, Long idBajada, int idViaje){
+        try {
+            Viaje viaje = viajeRepository.findById(idViaje).get();
+            Parada paradaSubir = paradaRepository.findById(idSubida).get();
+            Parada paradaBajar = paradaRepository.findById(idBajada).get();
+            List<Parada> ruta = viaje.getRuta().getParadas();
+            int indexSubida = ruta.indexOf(paradaSubir);
+            int indexBajada = ruta.indexOf(paradaBajar);
+            int cantidadParadas = indexBajada-indexSubida;
+            return new Response("Ok", cantidadParadas, false);
+        }catch (Exception e){
+            return new Response("Hubo problemas al calcular la cantidad de paradas", null, true);
+        }
+    }
+
 }

@@ -13,4 +13,5 @@ public interface BoletoService {
     Response getById(int id);
     Response validateBoletos(ValidateBoletoDTO validateBoletoDTO);
     Response getAsientosDisponibles(int idViaje, Long paradaSubir, Long paradaBajar);
+    Response getCantidadParadas(Long idSubida, Long idBajada, int idViaje );
 }

@@ -76,7 +76,7 @@ public class BoletoController {
     }
 
     @PostMapping("validar/")
-    ResponseEntity<Response> validateBoletos(@RequestBody ValidateBoletoDTO validateBoletoDTODTO){
+    public ResponseEntity<Response> validateBoletos(@RequestBody ValidateBoletoDTO validateBoletoDTODTO){
         Response response = new Response();
         try {
             response = boletoService.validateBoletos(validateBoletoDTODTO);
@@ -87,11 +87,24 @@ public class BoletoController {
     }
 
     @GetMapping("{idViaje}/{idParada}")
-    ResponseEntity<Response> getAsientosOcupados(@PathVariable(name = "idViaje") int idViaje,
+    public ResponseEntity<Response> getAsientosOcupados(@PathVariable(name = "idViaje") int idViaje,
                                                  @PathVariable(name = "idParada") Long idParada){
         Response response = new Response();
         try {
             response = boletoService.getAsientosDisponibles(idViaje, idParada, idParada);
+        }catch (Exception e) {
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("{idSubida}/{idBajada}/{idViaje}")
+    public ResponseEntity<Response> getCantidadParadas(@PathVariable(name = "idSubida") Long idSubida,
+                                                       @PathVariable(name = "idBajada") Long idBajada,
+                                                       @PathVariable(name = "idViaje") int idViaje){
+        Response response = new Response();
+        try {
+            response = boletoService.getCantidadParadas(idSubida, idBajada, idViaje);
         }catch (Exception e) {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

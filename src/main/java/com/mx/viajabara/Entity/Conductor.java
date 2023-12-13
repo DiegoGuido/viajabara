@@ -30,8 +30,7 @@ public class Conductor {
 
 
     @OneToMany(mappedBy = "conductor",
-            cascade = CascadeType.PERSIST,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private Set<Viaje> viajes;
 
 }
