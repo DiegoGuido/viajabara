@@ -37,8 +37,7 @@ public class Vehiculo {
     private String alias;
 
     @OneToMany(mappedBy = "vehiculo",
-            cascade = CascadeType.PERSIST,
-            orphanRemoval = true)
+            cascade = CascadeType.PERSIST)
     private Set<Viaje> viajes;
 
     @Column(name = "placa")

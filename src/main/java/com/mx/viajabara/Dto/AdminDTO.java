@@ -1,7 +1,6 @@
 package com.mx.viajabara.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -15,10 +14,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-
+public class AdminDTO {
     @Id
-    private int idCliente;
+    private int idAdmin;
 
     @NotBlank(message = "Nombre invalido: Campo requerido")
     @NotNull(message = "Nombre invalido: nombre es NULL")
@@ -37,10 +35,9 @@ public class UserDTO {
 
     private String fotoPerfil;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Past(message = "Fecha de nacimiento invalida: Debe ser en el pasado")
     private Date fechaNacimiento;
 
-    private String numeroTelefono;
-
+    private String numTelefono;
 }

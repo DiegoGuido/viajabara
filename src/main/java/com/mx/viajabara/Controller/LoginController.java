@@ -1,5 +1,6 @@
 package com.mx.viajabara.Controller;
 
+import com.mx.viajabara.Dto.AdminDTO;
 import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.ConductorDTO;
 import com.mx.viajabara.Dto.LoginDTO;
@@ -74,6 +75,21 @@ public class LoginController {
         Response response = new Response();
         try {
             response = emailService.sendSimpleEmail(correo);
+            if (response.getError()){
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<Response> saveAdmin(@RequestBody @Valid AdminDTO adminDTO){
+        Response response = new Response();
+        try {
+            response = clienteServiceImpl.saveAdmin(adminDTO);
             if (response.getError()){
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }

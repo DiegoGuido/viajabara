@@ -1,14 +1,14 @@
 package com.mx.viajabara.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "ADMINISTRADOR")
 public class Administrador {
 
@@ -17,9 +17,7 @@ public class Administrador {
     @Column(name = "id_administrador")
     private int idAdministrador;
 
-    @Column(name = "nombre")
-    private String nombre;
-
-    @Column(name = "clave")
-    private String clave;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario")
+    private Usuario usuario;
 }

@@ -27,6 +27,7 @@ public class VehiculoServiceImpl implements VehiculoService {
                 return new Response("Hubo problemas al guardar el vehiculo", null, true);
             }
         }catch (Exception e){
+            System.out.println(e);
                 return new Response("Hubo problemas al querer ejecutar el método para guardar el vehiculo, intentelo más tarde o comuniquese con el administrador", null, true);
         }
 
