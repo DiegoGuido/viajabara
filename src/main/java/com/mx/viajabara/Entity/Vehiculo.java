@@ -40,4 +40,7 @@ public class Vehiculo {
             cascade = CascadeType.PERSIST,
             orphanRemoval = true)
     private Set<Viaje> viajes;
+
+    @Column(name = "placa")
+    private String placa;
 }

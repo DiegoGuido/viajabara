@@ -2,6 +2,7 @@ package com.mx.viajabara.ServiceImpl;
 
 import com.mx.viajabara.Dto.ViajeDTO;
 import com.mx.viajabara.Entity.*;
+import com.mx.viajabara.Repository.ClienteRepository;
 import com.mx.viajabara.Repository.ParadaRepository;
 import com.mx.viajabara.Repository.ViajeRepository;
 import com.mx.viajabara.Service.ViajeService;
@@ -27,6 +28,8 @@ public class ViajeServiceImpl implements ViajeService {
     ParadaServiceImpl paradaService;
     @Autowired
     ParadaRepository paradaRepository;
+    @Autowired
+    ClienteRepository clienteRepository;
     @Override
     public Response getAll() {
         try {
@@ -144,6 +147,9 @@ public class ViajeServiceImpl implements ViajeService {
                  boletos) {
                Parada paradaTmp = paradaRepository.findById(boleto.getSubida()).get();
                if (paradaTmp.equals(parada)){
+                   Cliente cliente = boleto.getCliente();
+                   cliente.setViajeActivo(true);
+                   clienteRepository.save(cliente);
                    clientesSuben.add(boleto);
                }
             }

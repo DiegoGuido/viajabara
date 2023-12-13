@@ -51,9 +51,9 @@ public class VehiculoServiceImpl implements VehiculoService {
         try {
             Optional<Vehiculo> vehiculo = vehiculoRepository.findById(id);
             if (vehiculo.isPresent()){
-                return new Response("Vehículo guardado exitosamente", vehiculo, false);
+                return new Response("Ok", vehiculo.get(), false);
             }else {
-                return new Response("Problemas al guardar el vehículo", vehiculo, true);
+                return new Response("Problemas al obtener el vehículo", null, true);
             }
         }catch (Exception e){
             return new Response("Hubo problemas al querer ejecutar el método de guardar el vehículo, intentelo más tarde o comuniquese con el administrador", null, true);
@@ -69,6 +69,9 @@ public class VehiculoServiceImpl implements VehiculoService {
                 if (eliminado.getError() && eliminado.getObject() == null){
                     return new Response("Ok", id, false);
                 }else {
+                    System.out.println(eliminado.getError());
+                    System.out.println(eliminado.getObject());
+                    System.out.println(eliminado.getMessage());
                     return new Response("No se pudo eliminar el vehiculo con el id " + id, id, true);
                 }
             }else{

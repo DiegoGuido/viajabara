@@ -19,6 +19,6 @@ public interface ClienteService {
     Response getClienteById(Long id);
     Response saveUser(ClienteDTO clienteDTO);
     Response getBoletosByCliente(Long idCliente);
-
+    Response getViajeActivo(Long id);
 
 }

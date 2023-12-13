@@ -30,6 +30,8 @@ public class Cliente {
     @Column(name = "id_cliente")
     private int idCliente;
 
+    @Column(name = "viaja_activo")
+    private boolean viajeActivo;
 
     @OneToMany(mappedBy = "cliente",
             cascade = CascadeType.PERSIST,

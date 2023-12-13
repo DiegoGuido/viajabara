@@ -111,7 +111,7 @@ public class ConductorServiceImpl implements ConductorService {
             if (conductor.isPresent()){
                 return new Response("Ok", conductor.get(), false);
             }else {
-                return new Response("No se encontro al conductor con el id: " + id, null, false);
+                return new Response("No se encontro al conductor con el id: " + id, null, true);
             }
         }catch (Exception e){
             return new Response("Hubo problemas al querer buscar al conductor, intentelo más tarde o comuniquese con el administrador", null, true);

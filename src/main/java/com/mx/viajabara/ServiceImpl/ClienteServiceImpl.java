@@ -242,4 +242,26 @@ public class ClienteServiceImpl implements ClienteService {
         }
     }
 
+    @Override
+    public Response getViajeActivo(Long idCliente){
+        try {
+            Cliente cliente = clienteRepository.findById(idCliente).get();
+            Set<Boleto> boletos = cliente.getBoletos();
+            List<Boleto> boletosDelViajeActivo = new ArrayList<>();
+            for (Boleto boleto: boletos){
+                Viaje viaje = boleto.getViaje();
+                if (viaje.isViajeIniciado()){
+                    boletosDelViajeActivo.add(boleto);
+                }
+            }
+            if (boletosDelViajeActivo.isEmpty()){
+                return new Response("No se encontro ningun viaje iniciado", null, false);
+            }else{
+                return new Response("Ok", boletosDelViajeActivo, false);
+            }
+        }catch (Exception e){
+            return new Response("Problemas al querer obtener el viaje activo", null, true);
+        }
+    }
+
 }
