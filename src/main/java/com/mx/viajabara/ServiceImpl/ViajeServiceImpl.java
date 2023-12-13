@@ -58,6 +58,7 @@ public class ViajeServiceImpl implements ViajeService {
                             .conductor(conductorService.conductorRepository.findById(viaje.getConductor()).get())
                             .numAsientosDisponibles(viaje.getNum_asientos_disponibles())
                             .hora(viaje.getHora())
+                            .viajeRealizado(false)
                             .viajeIniciado(false)
                             .build();
 
@@ -198,12 +199,14 @@ public class ViajeServiceImpl implements ViajeService {
         try{
             Viaje viaje = viajeRepository.findById(idViaje).get();
             viaje.setViajeIniciado(false);
+            viaje.setViajeRealizado(true);
             Set<Boleto> boletos = viaje.getBoletos();
             for (Boleto boleto: boletos){
                 Cliente cliente = boleto.getCliente();
                 cliente.setViajeActivo(false);
                 clienteRepository.save(cliente);
             }
+            viajeRepository.save(viaje);
             return new Response("Ok", viaje, false);
         }catch (Exception e){
             return new Response("Hubo problemas al terminar el viaje", null, true);
