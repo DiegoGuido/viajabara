@@ -1,18 +1,19 @@
 package com.mx.viajabara.Service;
 
+import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Entity.Vehiculo;
 
 import java.util.List;
 
 public interface VehiculoService {
 
-    Boolean saveOrUpdateVehiculo(Vehiculo vehiculo);
+    Response saveOrUpdateVehiculo(Vehiculo vehiculo);
 
-    List<Vehiculo> getAll();
+    Response getAll();
 
-    Vehiculo getVehiculoById(Long id);
+    Response getVehiculoById(Long id);
 
-    Boolean deleteVehiculo(Long id);
+    Response deleteVehiculo(Long id);
 
 
 }

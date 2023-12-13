@@ -13,4 +13,12 @@ public interface ViajeService {
     Response deleteViajebyId(int id);
 
     Response getViajeById(int id);
+
+    Response filter(Long salida, Long llegada, String fecha);
+
+    Response iniciarViaje(int idViaje);
+
+    Response getPasajerosBajanSuben(int idViaje, Long idParada);
+
+    Response terminarViaje(int idViaje);
 }

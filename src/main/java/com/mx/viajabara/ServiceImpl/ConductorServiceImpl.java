@@ -47,6 +47,7 @@ public class ConductorServiceImpl implements ConductorService {
                     .fechaNacimiento(usuario.getFechaNacimiento())
                     .fotoPerfil(usuario.getFotoPerfil())
                     .role(Role.CONDUCTOR)
+                    .numeroTelefono(usuario.getNumeroTelefono())
                     .build();
 
             Conductor conductor = Conductor.builder()
@@ -69,6 +70,8 @@ public class ConductorServiceImpl implements ConductorService {
             }
 
         }catch (Exception e){
+
+            System.out.println(e);
                 return new Response("Problemas al querer guardar un conductor", null, true);
         }
     }
@@ -111,7 +114,7 @@ public class ConductorServiceImpl implements ConductorService {
             if (conductor.isPresent()){
                 return new Response("Ok", conductor.get(), false);
             }else {
-                return new Response("No se encontro al conductor con el id: " + id, null, false);
+                return new Response("No se encontro al conductor con el id: " + id, null, true);
             }
         }catch (Exception e){
             return new Response("Hubo problemas al querer buscar al conductor, intentelo más tarde o comuniquese con el administrador", null, true);

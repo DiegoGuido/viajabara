@@ -19,38 +19,56 @@ public class ParadaServiceImpl implements ParadaService {
     ParadaRepository paradaRepository;
 
     @Override
-    public Boolean saveOrUpdateConductor(ParadaDTO paradaDto) {
-        Boolean response = false;
-        Parada parada = Parada.builder()
-                .idParada(paradaDto.getIdParada())
-                .nombre(paradaDto.getNombre())
-                .descripcion(paradaDto.getDescripcion())
-                .latitud(paradaDto.getLatitud())
-                .longitud(paradaDto.getLongitud()).build();
-
-        Parada saved = paradaRepository.save(parada);
-
-        if (saved != null) response = true;
-
-        return response;
-    }
-
-    @Override
-    public List<Parada> getAll() {
-        return paradaRepository.findAll();
-    }
-
-    @Override
-    public String deleteParada(Long id) {
-        if (getParadaById(id)!= null){
-            paradaRepository.deleteById(id);
-            if (getParadaById(id) == null){
-                return "Se elimino la parada con ID " + id;
+    public Response saveOrUpdateParada(ParadaDTO paradaDto) {
+        try {
+            Parada parada = Parada.builder()
+                    .idParada(paradaDto.getIdParada())
+                    .nombre(paradaDto.getNombre())
+                    .descripcion(paradaDto.getDescripcion())
+                    .latitud(paradaDto.getLatitud())
+                    .longitud(paradaDto.getLongitud()).build();
+            Parada paradaSaved = paradaRepository.save(parada);
+            if (paradaSaved != null){
+                return new Response("Ok", paradaSaved, false);
+            }else{
+                return new Response("Hubo un problema al querer guardar la parada", paradaSaved, true);
             }
-        }else{
-            return "El ID " +id +" no existe";
+        }catch (Exception e){
+            return new Response("Hubo problemas al querer ejecutar el método de guardar parada, intentelo más tarde o comuniquese con el administrador", null, true);
         }
-        return null;
+    }
+
+    @Override
+    public Response getAll() {
+        try{
+            List<Parada> paradasList = paradaRepository.findAll();
+            if (paradasList.isEmpty()){
+                return new Response("No hay paradas disponibles", null, true);
+            }else {
+                return new Response("Ok", paradasList, false);
+            }
+        }catch (Exception e){
+            return new Response("Hubo problemas al querer ejecutar el método para obtener las paradas, intentelo más tarde o comuniquese con el administrador", null, true);
+        }
+    }
+
+    @Override
+    public Response deleteParada(Long id) {
+        try {
+            if (getParadaById(id)!= null){
+                paradaRepository.deleteById(id);
+                Response eliminado = getParadaById(id);
+                if (eliminado.getError() && eliminado.getObject() == null){
+                    return new Response("Ok", id, false);
+                }else {
+                    return new Response("No se pudo eliminar la parada con el id " + id, id, true);
+                }
+            }else{
+                return new Response("El id: " + id +" no existe", id, true);
+            }
+        }catch (Exception e){
+            return new Response("Hubo problemas al querer ejecutar el método para eliminar la parada, intentelo más tarde o comuniquese con el administrador", null, true);
+        }
     }
 
     @Override
@@ -61,7 +79,7 @@ public class ParadaServiceImpl implements ParadaService {
             if (parada.isPresent()){
                 response.setMessage("Ok");
                 response.setError(false);
-                response.setObject(parada);
+                response.setObject(parada.get());
 
             }else {
                 response.setMessage("No se encontro la parada con el id: " + id);

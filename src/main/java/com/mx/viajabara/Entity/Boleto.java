@@ -1,14 +1,17 @@
 package com.mx.viajabara.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@ToString
 @Table(name = "BOLETO")
 public class Boleto {
 
@@ -18,16 +21,24 @@ public class Boleto {
     private int idBoleto;
 
     @Column(name = "num_asiento")
-    private String asiento;
+    private int asiento;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JsonIgnoreProperties({"boletos", "usuario"})
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    @OneToOne
-    @JoinColumn(name = "viaje")
+    @JsonIgnoreProperties({"boletos", "ruta", "conductor", "vehiculo"})
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_viaje")
     private Viaje viaje;
 
     @Column(name = "precio")
-    private int precio;
+    private double precio;
+
+
+    private Long subida;
+
+
+    private Long bajada;
 }

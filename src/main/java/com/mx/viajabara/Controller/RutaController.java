@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mx.viajabara.Dto.ParadaDTO;
+import com.mx.viajabara.Dto.RutaDTO;
 import com.mx.viajabara.Entity.Parada;
 import com.mx.viajabara.Entity.Response;
 import com.mx.viajabara.Entity.Ruta;
@@ -27,7 +28,7 @@ public class RutaController {
     RutaServiceImpl rutaService;
 
     @PostMapping("/")
-    public ResponseEntity<Response> saveOrUpdate(@RequestBody Object ruta) {
+    public ResponseEntity<Response> saveOrUpdate(@RequestBody @Valid RutaDTO ruta) {
         Response response = new Response();
         try{
             response = rutaService.saveOrUpdateRuta(ruta);

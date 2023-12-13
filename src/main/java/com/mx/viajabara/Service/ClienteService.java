@@ -1,5 +1,6 @@
 package com.mx.viajabara.Service;
 
+import com.mx.viajabara.Dto.AdminDTO;
 import com.mx.viajabara.Dto.ClienteDTO;
 import com.mx.viajabara.Dto.LoginDTO;
 import com.mx.viajabara.Entity.Cliente;
@@ -18,6 +19,8 @@ public interface ClienteService {
     Response login(LoginDTO loginDTO) throws AuthenticationException;
     Response getClienteById(Long id);
     Response saveUser(ClienteDTO clienteDTO);
-
+    Response getBoletosByCliente(Long idCliente);
+    Response getViajeActivo(Long id);
+    Response saveAdmin(AdminDTO adminDTO);
 
 }

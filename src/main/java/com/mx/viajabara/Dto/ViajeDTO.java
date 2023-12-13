@@ -3,13 +3,18 @@ package com.mx.viajabara.Dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-@Data
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ViajeDTO {
     @Id
     private int idViaje;
@@ -22,9 +27,10 @@ public class ViajeDTO {
     @NotNull(message = "asientos invalidos: Campo requerido")
     private int num_asientos_disponibles;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Future(message = "Fecha de viaje: Debe ser en el futuro")
-    private Date fechaViaje;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+
+    @FutureOrPresent(message = "Fecha de viaje incorrecta")
+    private LocalDate fechaViaje;
 
     @NotNull(message = "ruta invalida: Campo requerido")
     private Long ruta;
@@ -37,4 +43,7 @@ public class ViajeDTO {
     @NotNull(message = "conductor invalido: Campo requerido")
     private int conductor;
 
+    private boolean viajeIniciado;
+
+    private String hora;
 }
